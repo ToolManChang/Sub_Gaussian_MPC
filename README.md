@@ -4,7 +4,7 @@ Official implementation of **Stochastic Model Predictive Control for Sub-Gaussia
 
 <div align="center">
   <img src="images/MSD.png" alt="msd" width="150"/>
-  <img src="images/SP.png" alt="sp" width="250"/>
+  <img src="images/SP.png" alt="sp" width="250" style="margin-left: 50px;"/>
 </div>
 
 ## Installation
