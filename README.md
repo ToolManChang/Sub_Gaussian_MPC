@@ -1,4 +1,11 @@
-# Uncertainty Propagation with Correlated sub-Gaussian
+# Stochastic MPC for Sub-Gaussian Noise
+
+Official implementation of **Stochastic Model Predictive Control for Sub-Gaussian Noise** (https://arxiv.org/abs/2503.08795)
+
+<p float="center">
+  <img src="images/MSD.png" alt="msd" width="150" style="margin-left: 100px;"/>
+  <img src="images/SP.png" alt="sp" width="250"/>
+</p>
 
 ## Installation
 
@@ -38,18 +45,20 @@ Test with examples:
 
 ### Testing
 
-Run experiments for calibration:
+Calibrate variance proxies from data:
 
     python main_calibration.py
 
-Run experiment for uncertainty propagation:
+Run experiment for uncertainty propagation, comparing robust, distributional robust (DR) and sub-Gaussian approaches:
 
     python main_propagation.py
 
-Run MPC experiments with 2D visualization:
+Run DR and robust MPC with 2D visualization for surgical planning environment:
 
     python main_control_2d.py
 
-Run MPC experiments with 1D visualization:
+Run DR and sub-Gaussian MPC with mass-spring-damper environment with 1D visualization:
 
     python main_control_classic.py
+
+The resulting visualization figures are saved under ```/images```
