@@ -4,7 +4,7 @@ c_generated_code
 *.pdf
 psp_envs/PedicleScrewPlacement/envs/objects/data/*
 **/*.pdf
-**/*.png
-**/*.npy
-*.npy
+# **/*.png
+# **/*.npy
+# *.npy
 *.json
