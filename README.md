@@ -2,10 +2,10 @@
 
 Official implementation of **Stochastic Model Predictive Control for Sub-Gaussian Noise** (https://arxiv.org/abs/2503.08795)
 
-<p float="center">
-  <img src="images/MSD.png" alt="msd" width="150" style="margin-left: 100px;"/>
+<div align="center">
+  <img src="images/MSD.png" alt="msd" width="150"/>
   <img src="images/SP.png" alt="sp" width="250"/>
-</p>
+</div>
 
 ## Installation
 
