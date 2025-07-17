@@ -11,16 +11,16 @@ rot_list: [[3.14, -1.57, 0], [3.14, -1.57, 0], [3.14, -1.57, 0], [3.14, -1.57, 0
 rot_list_adj: [[0, 0, -0.025], [0, 0, -0.025], [0, 0, -0.025], [0, 0, -0.025], [0, 0, -0.025]] # adj groundtruth
 trans_list_adj: [[0, -1, 0], [0, -1.5, 0], [0, -2.5, 0], [0, -3, 0], [0, -4.5, 0]]
 screw:
-  type: ["6x65.obj", "6x60.obj", "6x55.obj", "6x50.obj", "6x45.obj"]
-  init_rotation: [[0, 0, 1.57], [0.3, 1.18, 0], [0.0, 0.0, 1.57], [0.3, 1.18, 0], [0.3, 1.18, 0]]
+  type: ["6x45.obj"]
+  init_rotation: [[0.3, 1.18, 0]]
   init_position: [-150, 0, 0]
-  observe_center: [[48, 0, 0], [48, 0, 0], [43, 0, 0], [41.5, 0, 0], [38.5, 0, 0]] 
-  body_center: [[16, 0, 0], [16, 0, 0], [12, 0, 0], [12, 0, 0], [16, 0, 0]]
-  body_size: [[64, 6, 6], [64, 6, 6], [60, 6, 6], [58, 6, 6], [45, 6, 6]] 
+  observe_center: [[38.5, 0, 0]] 
+  body_center: [[16, 0, 0]]
+  body_size: [[45, 6, 6]] 
   camera_dist: 500
   camera_focus: 0
   tip_size: [5, 6, 6]
-  head_center: [[-25, 0, 0], [-21, 0, 0], [-21, 0, 0], [-18, 0, 0], [-16, 0, 0]]
+  head_center: [[-16, 0, 0]]
   head_size: [16, 16, 16]
 side: "right" # left or right insertion
 restricted_radius: 100
