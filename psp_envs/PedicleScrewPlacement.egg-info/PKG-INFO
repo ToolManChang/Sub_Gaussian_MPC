@@ -1,0 +1,6 @@
+Metadata-Version: 2.1
+Name: PedicleScrewPlacement
+Version: 0.0.1
+Requires-Dist: gym
+Requires-Dist: pyvista
+Requires-Dist: numpy

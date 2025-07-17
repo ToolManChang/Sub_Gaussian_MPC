@@ -1,0 +1,190 @@
+model_folder: "psp_envs/PedicleScrewPlacement/envs/objects/data/recon_l1-l5/model1_water"
+model_name: "model1"
+screw_folder: "psp_envs/PedicleScrewPlacement/envs/objects/data/screws/"
+
+# Data loading and env configs
+vertebra_list: ["L1"]
+screw_diameters: [8, 8, 8, 8, 8]
+point_cloud: "recon_model1_l1_l5_in_robot"
+crop_list: [[25, 35],[25, 35],[25, 35],[25, 35],[15, 35]] # from center, both direction along 
+rot_list: [[3.14, -1.57, 0], [3.14, -1.57, 0], [3.14, -1.57, 0], [3.14, -1.57, 0], [3.14, -1.2, 0]]
+rot_list_adj: [[0, 0, -0.025], [0, 0, -0.025], [0, 0, -0.025], [0, 0, -0.025], [0, 0, -0.025]] # adj groundtruth
+trans_list_adj: [[0, -1, 0], [0, -1.5, 0], [0, -2.5, 0], [0, -3, 0], [0, -4.5, 0]]
+screw:
+  type: ["6x65.obj", "6x60.obj", "6x55.obj", "6x50.obj", "6x45.obj"]
+  init_rotation: [[0, 0, 1.57], [0.3, 1.18, 0], [0.0, 0.0, 1.57], [0.3, 1.18, 0], [0.3, 1.18, 0]]
+  init_position: [-150, 0, 0]
+  observe_center: [[48, 0, 0], [48, 0, 0], [43, 0, 0], [41.5, 0, 0], [38.5, 0, 0]] 
+  body_center: [[16, 0, 0], [16, 0, 0], [12, 0, 0], [12, 0, 0], [16, 0, 0]]
+  body_size: [[64, 6, 6], [64, 6, 6], [60, 6, 6], [58, 6, 6], [45, 6, 6]] 
+  camera_dist: 500
+  camera_focus: 0
+  tip_size: [5, 6, 6]
+  head_center: [[-25, 0, 0], [-21, 0, 0], [-21, 0, 0], [-18, 0, 0], [-16, 0, 0]]
+  head_size: [16, 16, 16]
+side: "right" # left or right insertion
+restricted_radius: 100
+
+# dynamics config:
+motion_range:
+  x: [-320, 100]
+  y: [-200, 200]
+  z: [-50, 50] #[-10, -150] (train) #[-120, -150] (eval)
+  x_angle: [-0.5, 0.5]
+  y_orien: [-0.8, 0.8]
+  z_orien: [-1.0, 1.0]
+  scale: 1.0
+motion_ratio: # (x,y,z,ay,az)
+  if_constraint: False
+  restricted: [1.0, 1.0, 1.0, 1.0, 1.0] # rotation need to be 1 for mb methods (angles are solved)
+  bone: [1.0, 1.0, 1.0, 1.0, 1.0] # [1.0, 0.0...]
+motion_noise:
+  pose_laplace: 0.2 # mm # 0.2
+  bound: 2.0
+  uniform: 0.0 # 0.2
+reset:
+  x_range: [-240.5, -239.5] # #[30, 40] #  this is for data generation
+  y_range: [-80.5, -79.5] #[-20, -10] # 
+  z_range: [-0.5, 0.5]
+  x_angle_range: [-0.01, 0.01]
+  y_angle_range: [-0.01, 0.01]
+  z_angle_range: [-0.01, 0.01] #[0.5, 0.6] # 
+max_steps: 200
+
+# observation:
+vector_state: False
+if_validation: False
+3D_observation: 
+  if_3d: True
+  size: [100, 100, 20]
+  density: 4
+  if_boundary: True
+  if_world_upper: True
+  if_only_right: False
+  subsample: 1.0 # 2 0
+  noise: 0.5 # 0.5 0
+
+# augment point clouds
+observation_augmentation:
+  if_aug: True
+  if_missing: True
+  if_height: True
+  if_add: True
+  regional_missing:
+    min_keep_ratio: 0.7
+    num_regions_range: [4, 10]
+    num_normal_range: [6, 10]
+    normal_range: [[-10, -10], [10, 10]]
+  regional_height_change:
+    max_ratio: 0.2
+    height_range:  [-10., 10.]
+    num_regions_range: [1, 5]
+    num_normal_range: [5, 10]
+    normal_range: [[-10, -10], [10, 10]]
+  regional_addition:
+    max_add_ratio: 1.2
+    trans_range: [[-10., -20., -10], [10., 20., 10]]
+    rot_range: [-0.5, 0.5]
+    scale_range: [0.8, 1.2]
+    num_regions_range: [1, 5]
+    num_normal_range: [5, 10]
+    normal_range: [[-10, -10], [10, 10]]
+  random_crop: 5
+
+# reward config:
+reward_scale: 5e-4
+reward_weights:
+  insertion_depth: 50 # 50
+  unsafe_penalty: 30 # 5 (height change group: 10)
+  human_drct_diff: 3e3
+  human_entry_diff: 1e2
+  restricted: 100
+
+# safety config:
+safe_dist_width_ratio: 0.8
+reward_safe_dist_thr: 0.01
+
+# visualization config:
+window_size: [800, 800] #[100, 100] for train
+obs_shape: [100, 100]
+
+visualize_full: True
+visualize_history: False
+visualize_unsafe: False
+
+# model-based registration baselines:
+if_model_based: False
+model_based_method: 
+  global: "RANSAC" # "RANSAC", "FAST", "RAND"
+  local: "ICP" # ICP, CPD
+  rand_init_range: [0.7, 20] # XYZ euler rad, mm
+
+# state estimation
+if_state_estimation: True
+state_estimator:
+  num_samples: 50
+  prior_std:
+    [0.5, 0.5, 0.5, 0.01, 0.01, 0.01] # x, y, z, qx, qy, qz, w
+  likelihood: "voxel" # voxel or distance
+  use_action: False
+  use_value: True
+  use_log_prob: True
+  action_coef: 10
+  value_coef: 1e-4 # 1e-5
+  log_prob_coef: 0.1 # 0.1
+
+
+if_RL_state_estimation: False
+RL_policy: "/home/yunkao/git/MPC_RL_Spine/checkpoints/pcd/1006_ppo/rl_model_7680000_steps.zip" # need to set env.RL_model explicitly
+
+# modeling parts
+start_loc: [-0.192, -0.080, 0., 0, 0.] # -0.208 = -0.240 + 0.048
+goal_loc: [0.115, 0, 0, 0, 0]
+
+name: 'psp'
+A: [[1.0, 0.0, 0.0, 0.0, 0.0], 
+    [0.0, 1.0, 0.0, 0.0, 0.0], 
+    [0.0, 0.0, 1.0, 0.0, 0.0], 
+    [0.0, 0.0, 0.0, 1.0, 0.0], 
+    [0.0, 0.0, 0.0, 0.0, 1.0]]
+B: [[0.075, 0.0, 0.0, 0.0, 0.0], 
+    [0.0, 0.075, 0.0, 0.0, 0.0], 
+    [0.0, 0.0, 0.075, 0.0, 0.0], 
+    [0.0, 0.0, 0.0, 0.075, 0.0], 
+    [0.0, 0.0, 0.0, 0.0, 0.075]]
+C: [[1.0, 0.0, 0.0, 0.0, 0.0], 
+    [0.0, 1.0, 0.0, 0.0, 0.0], 
+    [0.0, 0.0, 1.0, 0.0, 0.0], 
+    [0.0, 0.0, 0.0, 1.0, 0.0], 
+    [0.0, 0.0, 0.0, 0.0, 1.0]]
+Q: [10.0, 10.0, 10.0, 0.1, 0.000001]
+R: [0.00001, 0.00001, 0.00001, 0.00001, 0.00001]
+x_min: [-200., -200., -200., -200., -200.]
+x_max: [200., 200., 200., 200., 200.]
+u_min: [-0.02, -0.01, -0.01, -0.5, -0.5]
+u_max: [0.02, 0.01, 0.01, 0.5, 0.5]
+dt: 0.075
+constraints: # constraints on the state
+  num_dim: 3
+  polygon: True # box # sphere # ellipsoid
+  a: [[1.0, 0.0, 0.0, 0.0, 0.0]] # lines to contruct polygon # last one is not effective
+  length_scale: 0.1
+  b: [[0.115]]
+  circle: False
+  mean: [[2.0, -0.5]]
+  cov: [[[2.0, 0], [0., 1.0]]]
+  exponential: False
+  shift: 2.0
+  radius: 2.5
+  funnel:
+    if_funnel: True
+    zeta: 0.0
+    shift: 5
+    constraint: 0.0004 #0.00065
+    dx: 0.02
+    dy: 0.2
+    dz: 0.2
+    screw_len: 0.07 # mm
+
+
+

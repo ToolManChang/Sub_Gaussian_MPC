@@ -1,0 +1,34 @@
+env:
+  dummy: 1
+
+approach: 'sub-Gaussian' # 'Gaussian' # 'robust' # 'sub-Gaussian' # nominal # stochastic-feedback 
+
+optimizer:
+  H : 60 # horizon
+  Hm : 30 # somewhere in the middle of the horizon
+  linear_solver : 'ma57' #
+  oracle:
+    max_sqp_iter: 10
+    tol_nlp: 1.0e-6
+  SEMPC:
+    max_sqp_iter: 10
+    tol_nlp: 1.0e-6 
+  Tf: 1.0 # sampling time = Tf/H
+  order: 1
+  dt: 0.015 # 0.010
+  w: 100
+
+tube:
+  K: -0.5
+  tightening: 0.0
+  robust_approach: 'polygon' # polygon
+
+algo:
+  objective: "GO" 
+  strategy: "graph" 
+  type: "MPC_V0"
+
+experiment:
+  name: "MPC" # name for different type of MPC implementations, for e.g., robust_MPC
+  generate_regret_plot : False
+  folder: "17-11-2023"

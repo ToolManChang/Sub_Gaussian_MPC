@@ -1,0 +1,10 @@
+__pycache__
+*.pyc
+c_generated_code
+*.pdf
+psp_envs/PedicleScrewPlacement/envs/objects/data/*
+**/*.pdf
+**/*.png
+**/*.npy
+*.npy
+*.json

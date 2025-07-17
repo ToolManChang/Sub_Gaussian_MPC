@@ -1,0 +1,66 @@
+name: "integrator_4d"
+A: [[1.0, 0.1, 0.005, 0.000167], 
+    [0.0, 1.0, 0.1, 0.005],
+    [0.0, 0.0, 1.0, 0.1],
+    [0.0, 0.0, 0.0, 1.0]]
+B: [[0.00000417], [0.000167], [0.005], [0.1]]
+C: [[1.0, 0.0, 0.0, 0.0]]
+Q: [1.0, 1.0, 1.0, 1.0]
+R: [0.001]
+x_min: [-200, -200, -200, -200]
+x_max: [200, 200, 200, 200]
+u_min: [-5.0]
+u_max: [5.0]
+dt: 0.015
+
+noise: # zero mean noises
+  disturbance: 
+    type: 'star' # uniform # gaussian # bounded exponential
+    param: 0.01
+    max_bound: 5
+    star_bound: 0.0005
+    skew: 0.01
+  measurement: 
+    type: 'star' # uniform # gaussian # bounded exponential
+    param: 0.01
+    max_bound: 5
+    star_bound: 0.0005
+    skew: 0.01
+  init_state: 
+    type: 'star' # uniform # gaussian # bounded exponential
+    param: 0.01
+    max_bound: 5
+    star_bound: 0.0005
+    skew: 0.01
+  time_variant:
+    activate: False
+    scale_factor: 0.3 # < 1.0
+    interval: 8000
+
+constraints: # constraints on the state
+  polygon: True # box # sphere # ellipsoid
+  a: [[1.0, 0.0, 0.0, 0.0],
+      [0.0, 1.0, 0.0, 0.0],
+      [0.0, 0.0, 1.0, 0.0],
+      [0.0, 0.0, 0.0, 1.0]] # lines to contruct polygon 
+  b: [[0.5], [1.0], [3.0], [3.0]] 
+  circle: False
+  mean: [[2.0, 0.0]]
+  cov: [[[0.0, 0], [0., 0.0]]]
+  exponential: False
+  shift: 2
+  radius: 2
+  funnel:
+    if_funnel: False
+    zeta: 0.0
+    shift: 5
+    constraint: 0.0005 #0.00065
+    dx: 0.02
+    dy: 0.2
+    dz: 0.2
+    screw_len: 0.07 # mm
+
+interest_dim: 1
+
+start_loc: [-1.0, -1.0, 0.0, 0.0]
+goal_loc: [0.0, 0.0, 0.0, 0.0]

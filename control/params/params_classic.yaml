@@ -1,0 +1,42 @@
+env:
+  dummy: 1
+  Q: [1e2, 1e4, 1e2, 1.0]
+  R: [0.1]
+  P: [1e4, 1e4, 1e2, 1.0]
+
+optimizer:
+  H : 60 # horizon
+  Hm : 30 # somewhere in the middle of the horizon
+  u_min : [-100.0] # Minimum control input
+  u_max : [100.0]
+  x_min : [-100, -100, -100, -100] # Minimum state value
+  x_max : [100, 100.0, 100, 100]
+  linear_solver : 'ma57' #
+  oracle:
+    max_sqp_iter: 10
+    tol_nlp: 1.0e-6
+  SEMPC:
+    max_sqp_iter: 10
+    tol_nlp: 1.0e-6 
+  Tf: 1.0 # sampling time = Tf/H
+  order: 1
+  x_dim: 4
+  u_dim: 1
+  dt: 0.015 # 0.010
+  w: 100
+
+tube:
+  K: -0.5
+  type: 'sub-Gaussian' # 'Gaussian' # 'robust' # 'sub-Gaussian'
+  tightening: 0.0
+  robust_approach: 'ellipsoid' # polygon
+
+algo:
+  objective: "GO" 
+  strategy: "graph" 
+  type: "MPC_V0"
+
+experiment:
+  name: "MPC" # name for different type of MPC implementations, for e.g., robust_MPC
+  generate_regret_plot : False
+  folder: "17-11-2023"
